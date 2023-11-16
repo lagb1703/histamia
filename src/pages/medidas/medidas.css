@@ -1,0 +1,29 @@
+
+.medidasConteiner{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.tableConteiner{
+    max-width: 70vw;
+    flex-basis: 5vh;
+}
+
+.resultadoConteiner{
+    list-style: none;
+    padding-left: 1vw;
+    width: 90%;
+}
+
+.resultadoConteiner li{
+    display: grid;
+    width: 90%;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.resultadoConteiner li div{
+    display: flex;
+    justify-content: space-around;
+}

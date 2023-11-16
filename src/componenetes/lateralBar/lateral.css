@@ -1,0 +1,45 @@
+.header{
+    width: 20vw;
+    height: 100vh;
+    background-color: var(--backgroundBarColor);
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+    align-items:  center;
+    border-right: 1.5px solid gray;
+}
+
+.hotbar{
+    margin-top: 0;
+    list-style: none;
+    text-decoration: none;
+    padding: 3vh 0;
+    width: 100%;
+}
+
+.hotbar a{
+    text-decoration: none;
+}
+
+.hotbar li{
+    padding: 1vh 3.5vw;
+}
+
+.hotbar li:hover{
+    background-color: var(--selectBackground);
+    transition: background-color 0.5s;
+}
+
+.hotbar li:hover a span{
+    color: var(--selectFontColor);
+    transition: color 0.5s;
+}
+
+.hotbar a svg{
+    color: var(--SimbolColor);
+    font-size: 1.7vw;
+}
+
+.hotbar a span{
+    color: var(--fontColor);
+}

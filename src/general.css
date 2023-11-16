@@ -1,0 +1,57 @@
+@font-face {
+    font-family: 'playfair'; /* Puedes elegir el nombre que desees */
+    src: url('./media/fonts/playfair/PlayfairDisplay-Italic-VariableFont_wght.ttf') format('truetype'), /* Ajusta la ruta y el formato según tus archivos de fuente */
+}
+@font-face {
+    font-family: 'roboto'; /* Puedes elegir el nombre que desees */
+    src: url('./media/fonts/roboto/Roboto-Bold.ttf') format('truetype'), /* Ajusta la ruta y el formato según tus archivos de fuente */
+}
+
+:root{
+    --backgroundBarColor: #FBFBFA;
+    --SimbolColor: #A3A29E;
+    --fontColor: #73726E;
+    --backgroundColor: #FFFFFF;
+    --selectBackground: #E2E2E2;
+    --selectFontColor: #37352F;
+}
+
+html{
+    font-family: 'roboto', sans-serif;
+    font-size: 1.5vw;
+    color: var(--fontColor);
+    background-color: var(--backgroundColor);
+}
+
+#root{
+    display: flex;
+}
+
+.second{
+    width: 80%;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+/* Estilo del track (la "línea" a lo largo de la cual se mueve el scrollbar) */
+::-webkit-scrollbar-track {
+background: #f1f1f1; /* Puedes ajustar este color según tu preferencia */
+}
+
+/* Estilo del thumb (el "mango" del scrollbar) */
+::-webkit-scrollbar-thumb {
+background: #888; /* Puedes ajustar este color según tu preferencia */
+border-radius: 3px;
+}
+
+/* Cambiar el color cuando el mouse pasa sobre el thumb */
+::-webkit-scrollbar-thumb:hover {
+background: #555; /* Puedes ajustar este color según tu preferencia */
+}
+
+/* th div{
+    word-wrap: break-word;
+    text-overflow:initial !important;
+} */

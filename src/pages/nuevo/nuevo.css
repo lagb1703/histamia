@@ -1,0 +1,93 @@
+.section{
+    display: flex;
+    justify-content: space-around;
+}
+
+.nuevoProyectoFrom{
+    flex-basis: 30vw;
+    margin: 2vh 2vw;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+.nuevoProyectoFrom div select{
+    background-color: var(--backgroundColor);
+}
+
+.nuevoProyectoFrom button{
+    background-color: var(--backgroundColor);
+}
+
+.columnaSelect{
+    display: flex;
+    justify-content: space-around;
+}
+
+.EventContainer{
+    list-style: none;
+    max-height: 15vh;
+    margin-bottom: 0.5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: 5vh;
+    padding-left: 1vw;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+    align-items: center;
+}
+
+.EventContainer::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+/* Estilo del track (la "línea" a lo largo de la cual se mueve el scrollbar) */
+.EventContainer::-webkit-scrollbar-track {
+background: #f1f1f1; /* Puedes ajustar este color según tu preferencia */
+}
+
+/* Estilo del thumb (el "mango" del scrollbar) */
+.EventContainer::-webkit-scrollbar-thumb {
+background: #888; /* Puedes ajustar este color según tu preferencia */
+border-radius: 3px;
+}
+
+/* Cambiar el color cuando el mouse pasa sobre el thumb */
+.EventContainer::-webkit-scrollbar-thumb:hover {
+background: #555; /* Puedes ajustar este color según tu preferencia */
+}
+
+.Event{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Event input{
+    flex-basis: 60%;
+    padding: 0.7vh;
+}
+
+.Event button{
+    flex-basis: 30%;
+    border-color: red;
+    color: red;
+    margin-right: 1vh;
+}
+
+/* .EventContainer input{
+    flex-basis: 1vw;
+} */
+
+.tableContainer{
+    max-height: 60vh;
+    max-width: 50vw;
+}
+
+#nombre{
+    width: 92%;
+    padding: 1vh 1vw;
+    margin-bottom: 1vh;
+}

@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { LateralBar } from "./componenetes/lateralBar/lateralBar";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { Principal } from "./pages/principal/principal";
+import { NuevoPage } from "./pages/nuevo/nuevo";
+import { MedidasPage } from "./pages/medidas/medidas";
+import { OddsPage } from "./pages/probabilidad/probabilidad";
+import { v4 as uuidv4 } from 'uuid';
+
+const router = [
+  {
+    path: "/",
+    element: <Principal className="second"/>,
+  },
+  {
+    path: "/nuevo",
+    element: <NuevoPage className="second"/>,
+  },
+  {
+    path: "/medidas",
+    element: <MedidasPage className="second"/>,
+  },
+  {
+    path: "/probabilidades",
+    element: <OddsPage className="second"/>,
+  },
+];
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <LateralBar />
+        <Routes>
+          {router.map((i)=><Route key={uuidv4()} path={i.path} element={i.element}/>)}
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
