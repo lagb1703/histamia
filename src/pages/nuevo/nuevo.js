@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useTableData } from "../../hooks/useTables";
 import { Table } from "../../componenetes/tabla/tabla";
 
-class magicWorks{
+class magicWords{
     saveValue = "save"
     integerName = "Entero"
     integerValue = "entero"
@@ -16,46 +16,68 @@ class magicWorks{
     maxInputTypeSize = 14
 }
 
-const magic = Object.freeze(new magicWorks());
+const magic = Object.freeze(new magicWords());
 
-const dataTypes = [
-    {
-        nombre:magic.integerName,
-        valor:magic.integerValue
-    },
-    {
-        nombre:magic.stringName,
-        valor:magic.stringValue
-    },
-    {
-        nombre:magic.floatName,
-        valor:magic.floatValue
-    },
-
+const types = [
+    magic.stringName,
+    magic.floatName,
+    magic.integerName
 ]
 
-function EventProbabilistics( {id, setEvents}){
-    let handleDeleteButton= (id)=>(e)=>{
-        e.preventDefault();
-        setEvents((events)=>events.filter((item)=>{
-            return item !== id;
-        }))
+const DISTRIBUCIONES = [
+    {
+        "nombre":"causal",
+        "data":[]
+    },
+    {
+        "nombre":"bernoulli",
+        "data":[
+            "p"
+        ]
+    },
+    {
+        "nombre":"binomial",
+        "data":[
+            "p"
+        ]
+    },
+    {
+        "nombre":"hipergeometrica",
+        "data":[
+            "R",
+            "N"
+        ]
+    },
+    {
+        "nombre":"poisson",
+        "data":[
+
+        ]
+    },
+    {
+        "nombre":"geometrica",
+        "data":[
+
+        ]
+    },
+    {
+        "nombre":"pascal",
+        "data":[
+            "p",
+            "r"
+        ]
     }
+]
+
+function Distributions( {name}){
     function handleChange(e){
         let value = e.target.value;
         if(value === "")
             return
-        let values = value.split(" ");
-        if(values.length !== 3 || values[2] === ""){
-            e.target.style.color = "red";
-            return;
-        }
-        e.target.style.color = "";
     }
     return(
         <li className="Event">
-            <input onChange={handleChange} type="text" placeholder="x = 5"/>
-            <button onClick={handleDeleteButton(id)}>Eliminar</button>
+            <input onChange={handleChange} type="text" placeholder={name}/>
         </li>
     )
 }
@@ -63,7 +85,7 @@ function EventProbabilistics( {id, setEvents}){
 function FormData({get, set, setTitle, data}){
     const [getUse, setUse] = useState(false);
     const [getDisableSelects, setDisableSelects] = useState(true);
-    const [Events, setEvents] = useState([uuidv4()])
+    const [getData, setData] = useState([]);
     useEffect(handleColumnActiveSelect, [get]);
     function handleColumnActiveSelect(){
         if(get.length > 0){
@@ -72,6 +94,14 @@ function FormData({get, set, setTitle, data}){
         }
         setDisableSelects(true);
     }
+
+    function handleChange(e){
+        e.preventDefault();
+        setData(DISTRIBUCIONES.find((item)=>{
+            return item.nombre === e.target.value;
+        }).data)
+    }
+
     function handleValor(){
         setUse(true);
     }
@@ -83,11 +113,6 @@ function FormData({get, set, setTitle, data}){
             return;
         }
         setTitle(valor);
-    }
-
-    function handleAddEvents(e){
-        e.preventDefault()
-        setEvents((preItems)=>[...preItems, uuidv4()])
     }
 
     function handleOnSumitFile(e){
@@ -141,20 +166,22 @@ function FormData({get, set, setTitle, data}){
                 </select>
                 <select disabled={getDisableSelects} onClick={handleValor}>
                     {(!getUse)?<option>Tipo Valor</option>:<></>}
-                    {dataTypes.map((item)=>{
-                        return(<option key={uuidv4()} value={item.valor}>{item.nombre}</option>)
+                    {types.map((item)=>{
+                        return(<option key={uuidv4()} value={item}>{item}</option>)
+                    })}
+                </select>
+            </div>
+            <div>
+                <select onChange={handleChange}>
+                    {DISTRIBUCIONES.map((item)=>{
+                        return <option key={uuidv4()}>{item.nombre}</option>
                     })}
                 </select>
             </div>
             <ul className="EventContainer">
-                {Events.map((item)=>{
-                    return(
-                        <EventProbabilistics id={item} setEvents={setEvents} key={item}/>
-                    )
+                {getData.map((item)=>{
+                    return <Distributions name={item} key={uuidv4()}/>;
                 })}
-                <li>
-                    <button onClick={handleAddEvents}>Agregar Evento</button>
-                </li>
             </ul>
             <button>Calcular</button>
         </form>
