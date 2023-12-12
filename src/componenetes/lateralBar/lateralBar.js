@@ -3,6 +3,7 @@ import {BiRuler} from "react-icons/bi";
 import {MdOutlineWatchLater} from "react-icons/md";
 import {AiOutlinePlusCircle} from "react-icons/ai"
 import { PageIcon } from "../Icon/icon";
+import { GrGraphQl } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -23,7 +24,7 @@ const links = [
         url:"/historial",
         simbol:MdOutlineWatchLater,
         name: "historial"
-    }
+    },
 ]
 
 const medidas = [
@@ -36,7 +37,12 @@ const medidas = [
         url:"/probabilidades",
         simbol:BsDice1,
         name: "probabilidades"
-    }
+    },
+    {
+        url:"/graficos",
+        simbol:GrGraphQl,
+        name: "graficos"
+    },
 ]
 
 function LiItem(promp){

@@ -2,7 +2,6 @@ import { Title } from "../../componenetes/title/title";
 import { globalContext } from "../../context/globalContext";
 import { useContext, useEffect, useState } from "react";
 import { Table } from "../../componenetes/tabla/tabla";
-import { ColumnData } from "../../hooks/useTables";
 import { v4 as uuidv4 } from "uuid";
 
 import "./medidas.css";
@@ -26,10 +25,9 @@ function MedidaUnitario({medida, valor}){
 }
 
 export function MedidasPage({className}){
-    const {getCheck, getName, getMedidas} = useContext(globalContext);
+    const {getName, getCheck, getMedidas, getColumns} = useContext(globalContext);
     const [getSeparacion, setSeparacion] = useState([]);
     useEffect(handleSubArrays, [getMedidas]);
-
     function handleSubArrays(){
         let div = getMedidas.length/3;
         let subs = [];
@@ -41,7 +39,7 @@ export function MedidasPage({className}){
         setSeparacion(subs);
     }
 
-    if(getCheck)
+    if(!getCheck)
         return(
         <main className={className}>
             <Title titulo={"Genera un proyecto"} />
@@ -50,54 +48,12 @@ export function MedidasPage({className}){
         )
     return(
     <section className={className}>
-        <Title titulo={getName} />
+        <Title titulo={getName}/>
         <div className="medidasConteiner">
             <div className="tableConteiner">
                 <Table columns={
-                    [
-                        new ColumnData("intervalo", "intervalo"),
-                        new ColumnData("frecuencia", "frecuencia"),
-                        new ColumnData("frecuencia acomulada", "frecuencia acomulada"),
-                        new ColumnData("frecuencia absoluta", "frecuencia absoluta"),
-                        new ColumnData("frecuencia absoluta acomulada", "frecuencia absoluta acomulada")
-                    ]
-                } data={[
-                    {
-                        "intervalo":"0-10",
-                        "frecuencia":"3",
-                        "frecuencia acomulada":"3",
-                        "frecuencia absoluta":"0.1",
-                        "frecuencia absoluta acomulada":"0.1"
-                    },
-                    {
-                        "intervalo":"0-10",
-                        "frecuencia":"3",
-                        "frecuencia acomulada":"3",
-                        "frecuencia absoluta":"0.1",
-                        "frecuencia absoluta acomulada":"0.1"
-                    },
-                    {
-                        "intervalo":"0-10",
-                        "frecuencia":"3",
-                        "frecuencia acomulada":"3",
-                        "frecuencia absoluta":"0.1",
-                        "frecuencia absoluta acomulada":"0.1"
-                    },
-                    {
-                        "intervalo":"0-10",
-                        "frecuencia":"3",
-                        "frecuencia acomulada":"3",
-                        "frecuencia absoluta":"0.1",
-                        "frecuencia absoluta acomulada":"0.1"
-                    },
-                    {
-                        "intervalo":"0-10",
-                        "frecuencia":"3",
-                        "frecuencia acomulada":"3",
-                        "frecuencia absoluta":"0.1",
-                        "frecuencia absoluta acomulada":"0.1"
-                    }
-                ]}/>
+                    getColumns.columns
+                } data={getColumns.data}/>
             </div>
             <ul className="resultadoConteiner">
                 {getSeparacion.map((divs)=>{

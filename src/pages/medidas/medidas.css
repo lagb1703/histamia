@@ -7,7 +7,8 @@
 }
 
 .tableConteiner{
-    max-width: 70vw;
+    max-width: 78vw;
+    max-height: 36.5vh;
     flex-basis: 5vh;
 }
 

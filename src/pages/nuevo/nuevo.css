@@ -66,15 +66,8 @@ background: #555; /* Puedes ajustar este color según tu preferencia */
 }
 
 .Event input{
-    flex-basis: 60%;
+    flex-basis: 88.8%;
     padding: 0.7vh;
-}
-
-.Event button{
-    flex-basis: 30%;
-    border-color: red;
-    color: red;
-    margin-right: 1vh;
 }
 
 /* .EventContainer input{

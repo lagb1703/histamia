@@ -1,12 +1,59 @@
 import { createContext, useState } from "react";
 import { Medida } from "../pages/medidas/medidas";
 import { Probabilidad } from "../pages/probabilidad/probabilidad";
+import { ColumnData } from "../hooks/useTables";
 
 export const globalContext = createContext();
 
 export function GlobalProvider({children}){
     const [getCheck, setCheck] = useState(false);
     const [getName, setName] = useState("prueba");
+    const [getColumns, setColumns] = useState({
+        columns:[
+            new ColumnData("intervalo", "intervalo"),
+            new ColumnData("frecuencia", "frecuencia"),
+            new ColumnData("frecuencia acomulada", "frecuencia acomulada"),
+            new ColumnData("frecuencia absoluta", "frecuencia absoluta"),
+            new ColumnData("frecuencia absoluta acomulada", "frecuencia absoluta acomulada")
+        ],
+        data:[
+            {
+                "intervalo":"0-10",
+                "frecuencia":"3",
+                "frecuencia acomulada":"3",
+                "frecuencia absoluta":"0.1",
+                "frecuencia absoluta acomulada":"0.1"
+            },
+            {
+                "intervalo":"0-10",
+                "frecuencia":"3",
+                "frecuencia acomulada":"3",
+                "frecuencia absoluta":"0.1",
+                "frecuencia absoluta acomulada":"0.1"
+            },
+            {
+                "intervalo":"0-10",
+                "frecuencia":"3",
+                "frecuencia acomulada":"3",
+                "frecuencia absoluta":"0.1",
+                "frecuencia absoluta acomulada":"0.1"
+            },
+            {
+                "intervalo":"0-10",
+                "frecuencia":"3",
+                "frecuencia acomulada":"3",
+                "frecuencia absoluta":"0.1",
+                "frecuencia absoluta acomulada":"0.1"
+            },
+            {
+                "intervalo":"0-10",
+                "frecuencia":"3",
+                "frecuencia acomulada":"3",
+                "frecuencia absoluta":"0.1",
+                "frecuencia absoluta acomulada":"0.1"
+            }
+        ]
+    });
     const [getMedidas, setMedidas] = useState([
         new Medida("promedio", 10),
         new Medida("mediana", 5),
@@ -46,7 +93,9 @@ export function GlobalProvider({children}){
         getOdds:getOdds,
         setOdds:setOdds,
         getSerie:getSerie,
-        setSerie:setSerie
+        setSerie:setSerie,
+        setColumns:setColumns,
+        getColumns:getColumns
     }}>
         {children}
     </globalContext.Provider>

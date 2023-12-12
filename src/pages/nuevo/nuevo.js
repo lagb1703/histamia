@@ -1,9 +1,11 @@
 import "./nuevo.css";
 import { Title } from "../../componenetes/title/title";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTableData } from "../../hooks/useTables";
 import { Table } from "../../componenetes/tabla/tabla";
+import { useFecthBackend, useResult } from "../../hooks/useFecth";
 
 class magicWords{
     saveValue = "save"
@@ -26,26 +28,23 @@ const types = [
 
 const DISTRIBUCIONES = [
     {
-        "nombre":"causal",
-        "data":[]
-    },
-    {
         "nombre":"bernoulli",
         "data":[
-            "p"
+            //"p"
         ]
     },
     {
         "nombre":"binomial",
         "data":[
-            "p"
+            "n"
         ]
     },
     {
         "nombre":"hipergeometrica",
         "data":[
             "R",
-            "N"
+            "N",
+            "n"
         ]
     },
     {
@@ -63,13 +62,15 @@ const DISTRIBUCIONES = [
     {
         "nombre":"pascal",
         "data":[
-            "p",
             "r"
         ]
     }
 ]
 
 function Distributions( {name}){
+    function handleClick(e){
+        e.target.style.borderBlockColor = "grey";
+    }
     function handleChange(e){
         let value = e.target.value;
         if(value === "")
@@ -77,16 +78,26 @@ function Distributions( {name}){
     }
     return(
         <li className="Event">
-            <input onChange={handleChange} type="text" placeholder={name}/>
+            <input onClick={handleClick} onChange={handleChange} type="text" placeholder={name}/>
         </li>
     )
 }
 
-function FormData({get, set, setTitle, data}){
-    const [getUse, setUse] = useState(false);
+function FormData({get, set, setTitle, data, info}){
     const [getDisableSelects, setDisableSelects] = useState(true);
+    const [getFirstOption, setFirstOption] = useState("distribución");
+    const [getFirstOptionValue, setFirstOptionValue] = useState("tipo valor");
     const [getData, setData] = useState([]);
+    const title = useRef("");
+    const setInfo = useResult(title);
+    const navigateTo = useNavigate();
     useEffect(handleColumnActiveSelect, [get]);
+    const {result, setDatos} = useFecthBackend();
+    useEffect(()=>{
+        setInfo(result);
+        if(result != null)
+            navigateTo("/medidas");
+    }, [result]);
     function handleColumnActiveSelect(){
         if(get.length > 0){
             setDisableSelects(false);
@@ -97,13 +108,14 @@ function FormData({get, set, setTitle, data}){
 
     function handleChange(e){
         e.preventDefault();
+        setFirstOption(e.target.value);
         setData(DISTRIBUCIONES.find((item)=>{
             return item.nombre === e.target.value;
         }).data)
     }
 
-    function handleValor(){
-        setUse(true);
+    function handleValor(e){
+        setFirstOptionValue(e.target.value);
     }
 
     function handleTitleChange(e){
@@ -135,17 +147,39 @@ function FormData({get, set, setTitle, data}){
         let guardar = e.target[2].checked;
         let columna = e.target[3].value;
         let tipoValor = e.target[4].value;
-        let consuelo = [];
-        if(proyectName === "" || data === "" || columna === "Columna" || tipoValor === "Tipo Valor"){
+        let distribucion = e.target[5].value;
+        let variables = {};
+        const numeros = new RegExp("^[0-9]");
+        if(distribucion === "distribución" | proyectName === "" || data === "" || columna === "Columna" || tipoValor === "Tipo Valor"){
             alert("te faltan rellenar datos");
             return;
         }
-
-        for(let i = 5; i < e.target.length-2; i+=2){
-            if(e.target[i].value === "" || e.target[i].style.color === "red")
-                return
-            consuelo.push(e.target[i].value)
+        for(let i = 6; i < e.target.length - 1; i++){
+            let valor = e.target[i].value;
+            let nombre = e.target[i].getAttribute("placeholder");
+            if(valor === ""){
+                e.target[i].style.borderBlockColor = "red";
+                return;
+            }
+            if(!numeros.test(valor)){
+                e.target[i].style.borderBlockColor = "red";
+                return;
+            }
+            variables[nombre] = valor;
         }
+        let datos = {
+            "csvData":info,
+            "jsonData":{
+                "variable":variables.x,
+                "columna_principal":columna,
+                "distribucion":{
+                    "tipo":distribucion,
+                    "datos":variables
+                }
+            }
+        }
+        title.current = proyectName;
+        setDatos(datos);
     }
     return(
         <form className="nuevoProyectoFrom" onSubmit={handleSumit}>
@@ -164,21 +198,28 @@ function FormData({get, set, setTitle, data}){
                         return<option key={uuidv4()} value={item.valor}>{item.name}</option>
                     })}
                 </select>
-                <select disabled={getDisableSelects} onClick={handleValor}>
-                    {(!getUse)?<option>Tipo Valor</option>:<></>}
+                <select onChange={handleValor}>
+                    <option>{getFirstOptionValue}</option>
                     {types.map((item)=>{
+                        if(item === getFirstOptionValue)
+                            return <></>;
                         return(<option key={uuidv4()} value={item}>{item}</option>)
                     })}
                 </select>
             </div>
             <div>
                 <select onChange={handleChange}>
+                    <option>{getFirstOption}</option>
                     {DISTRIBUCIONES.map((item)=>{
-                        return <option key={uuidv4()}>{item.nombre}</option>
+                        if(item.nombre !== getFirstOption)
+                            return <option key={uuidv4()}>{item.nombre}</option>
+                        else
+                            return <></>
                     })}
                 </select>
             </div>
             <ul className="EventContainer">
+                <Distributions name="x" />
                 {getData.map((item)=>{
                     return <Distributions name={item} key={uuidv4()}/>;
                 })}
@@ -191,7 +232,7 @@ function FormData({get, set, setTitle, data}){
 export function NuevoPage({className}){
     const [getTitle, setTitle] = useState("Nuevo proyecto");
     useEffect(handleTitleText, [getTitle]);
-    const {set, get, columns, row} = useTableData(10);
+    const {set, get, columns, row, data} = useTableData(10);
     function handleTitleText(){
         if(getTitle === "")
             setTitle("Nuevo Proyecto");
@@ -200,7 +241,7 @@ export function NuevoPage({className}){
     <main className={className}>
         <Title titulo={getTitle}/>
         <section className="section">
-            <FormData get={columns} data={get} set={set} setTitle={setTitle}/>
+            <FormData get={columns} data={get} set={set} setTitle={setTitle} info={data}/>
             <div className="tableContainer">
                 <Table columns={columns} data={row}/>
             </div>

@@ -18,7 +18,7 @@ export function useTableData(maximo){
         Papa.parse(getData, {
             header: false,
             complete: (result) => {
-                let filter = result.data.filter(fila => fila.some(valor => valor !== null && valor !== '' && valor != " "));
+                let filter = result.data.filter(fila => fila.some(valor => valor !== null && valor !== '' && valor !== " "));
                 if(filter.length === 0)
                     return;
                 setCsvData(filter);
@@ -39,6 +39,7 @@ export function useTableData(maximo){
         get:getCsvData,
         set:setData,
         columns:getColumns,
-        row:getRow
+        row:getRow,
+        data:getData
     }
 }

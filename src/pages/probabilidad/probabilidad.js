@@ -2,9 +2,7 @@ import { useContext, useState, useEffect } from "react"
 import { globalContext } from "../../context/globalContext"
 import { Title } from "../../componenetes/title/title"
 import { Barras } from "../../componenetes/graficas/barras/barras"
-import { Circular } from "../../componenetes/graficas/circular/circular"
 import { Arbol } from "../../componenetes/graficas/arbol/arbol"
-import { Serie } from "../../componenetes/graficas/series/serie"
 import { v4 as uuidv4 } from 'uuid';
 import "./probabilidad.css"
 
@@ -18,7 +16,7 @@ export class Probabilidad{
 }
 
 export function OddsPage({className}){
-    const {getName, getCheck, getOdds, getSerie} = useContext(globalContext);
+    const {getName, getCheck, getOdds} = useContext(globalContext);
     const [getLabels, setLabels] = useState([]);
     const [getValues, setValues] = useState([]);
     useEffect(()=>{
@@ -31,7 +29,7 @@ export function OddsPage({className}){
         setLabels(labels);
         setValues(values);
     }, [getOdds]);
-    if(getCheck)
+    if(!getCheck)
         return(
         <main className={className}>
             <Title titulo={"Genera un proyecto"} />
@@ -45,8 +43,6 @@ export function OddsPage({className}){
             <div className="contenedorGraficas">
                 <Barras id={uuidv4()} labels={getLabels} data={getValues}/>
                 <Arbol id={uuidv4()} data={getOdds}/>
-                <Serie id={uuidv4()} nombre={getSerie.name} data={getSerie.values}/>
-                <Circular id={uuidv4()} name={getName} subname={"no se xd"} labels={getLabels} data={getValues}/>
             </div>
         </div>
     </section>
