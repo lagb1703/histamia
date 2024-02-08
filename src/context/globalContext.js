@@ -8,6 +8,14 @@ export const globalContext = createContext();
 export function GlobalProvider({children}){
     const [getCheck, setCheck] = useState(false);
     const [getName, setName] = useState("prueba");
+    const [getCards, setCards] = useState([
+        {
+            nombre:"nombre",
+            media:10,
+            mediana:10,
+            moda:10
+        }
+    ]);
     const [getColumns, setColumns] = useState({
         columns:[
             new ColumnData("intervalo", "intervalo"),
@@ -95,7 +103,9 @@ export function GlobalProvider({children}){
         getSerie:getSerie,
         setSerie:setSerie,
         setColumns:setColumns,
-        getColumns:getColumns
+        getColumns:getColumns,
+        getCards:getCards,
+        setCards:setCards
     }}>
         {children}
     </globalContext.Provider>

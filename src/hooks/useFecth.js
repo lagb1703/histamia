@@ -19,12 +19,21 @@ async function makeFecth(getData, setData){
     })
 }
 
-export function useResult(name){
+export function useResult(name, guardar){
     const [getData, setData] = useState(null);
-    const {setCheck, setName, setMedidas, setOdds, setSerie, setColumns} = useContext(globalContext);
+    const {setCheck, setName, setMedidas, setOdds, setSerie, setColumns, setCards} = useContext(globalContext);
     useEffect(()=>{
         if(getData === null)
             return;
+        console.log(getData);
+        if(guardar.current){
+            setCards(cards => [...cards, {
+                nombre:name.current,
+                media: getData.CentralTendency[0].value,
+                mediana: getData.CentralTendency[1].value,
+                moda: getData.CentralTendency[2].value
+            }]);
+        }
         setCheck(true);
         setName(name.current);
         setMedidas(getData.CentralTendency.map((item)=>{

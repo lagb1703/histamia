@@ -30,8 +30,10 @@ export function GraphicsPage({className}){
     return(
     <main className={className}>
         <div className="graphicsConteiner">
-            <Serie id={uuidv4()} nombre={getName} data={getSerie.values}/>
-            <Circular id={uuidv4()} name={getName} subname={"no se xd"} labels={getLabels} data={getValues}/>
+            <div className="containerG">
+                <Serie id={uuidv4()} nombre={getName} data={getSerie.values}/>
+                <Circular id={uuidv4()} name={getName} subname={""} labels={getLabels} data={getValues}/>
+            </div>
         </div>
     </main>)
 }

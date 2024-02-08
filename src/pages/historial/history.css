@@ -1,0 +1,17 @@
+.cards{
+    height: 40vh;
+    width: 80%;
+    margin: 0;
+    display: flex;
+    gap: 1vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.cardsContainer{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

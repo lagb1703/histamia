@@ -1,5 +1,13 @@
 .graphicsConteiner{
-    background-color: black;
     width: 90%;
     height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerG{
+    width: 95%;
+    height: 60%;
+    display: flex;
 }

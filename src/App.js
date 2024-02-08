@@ -5,6 +5,7 @@ import { NuevoPage } from "./pages/nuevo/nuevo";
 import { MedidasPage } from "./pages/medidas/medidas";
 import { OddsPage } from "./pages/probabilidad/probabilidad";
 import { GraphicsPage } from "./pages/graficos/graphics";
+import { HistoryPage } from "./pages/historial/history";
 import { v4 as uuidv4 } from 'uuid';
 
 const router = [
@@ -28,6 +29,10 @@ const router = [
     path: "/graficos",
     element: <GraphicsPage className="second"/>,
   },
+  {
+    path:"/historial",
+    element: <HistoryPage className="second"/>
+  }
 ];
 
 function App() {

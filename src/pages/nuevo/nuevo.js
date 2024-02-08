@@ -1,6 +1,5 @@
 import "./nuevo.css";
 import { Title } from "../../componenetes/title/title";
-import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useRef, useState } from "react";
 import { useTableData } from "../../hooks/useTables";
@@ -89,14 +88,12 @@ function FormData({get, set, setTitle, data, info}){
     const [getFirstOptionValue, setFirstOptionValue] = useState("tipo valor");
     const [getData, setData] = useState([]);
     const title = useRef("");
-    const setInfo = useResult(title);
-    const navigateTo = useNavigate();
+    const guardar = useRef(false);
+    const setInfo = useResult(title, guardar);
     useEffect(handleColumnActiveSelect, [get]);
     const {result, setDatos} = useFecthBackend();
     useEffect(()=>{
         setInfo(result);
-        if(result != null)
-            navigateTo("/medidas");
     }, [result]);
     function handleColumnActiveSelect(){
         if(get.length > 0){
@@ -112,6 +109,10 @@ function FormData({get, set, setTitle, data, info}){
         setData(DISTRIBUCIONES.find((item)=>{
             return item.nombre === e.target.value;
         }).data)
+    }
+
+    function change(){
+        guardar.current = !guardar.current;
     }
 
     function handleValor(e){
@@ -144,7 +145,6 @@ function FormData({get, set, setTitle, data, info}){
     function handleSumit(e){
         e.preventDefault();
         let proyectName = e.target[0].value;
-        let guardar = e.target[2].checked;
         let columna = e.target[3].value;
         let tipoValor = e.target[4].value;
         let distribucion = e.target[5].value;
@@ -188,7 +188,7 @@ function FormData({get, set, setTitle, data, info}){
                 <input onChange={handleOnSumitFile} id="file" name="file" type="file"/>
             </div>
             <div>
-                <input type="checkbox" id={magic.saveValue} value={magic.saveValue}/>
+                <input onChange={change} type="checkbox" id={magic.saveValue} value={magic.saveValue}/>
                 <label htmlFor={magic.saveValue}>Guardar</label>
             </div>
             <div className="columnaSelect">
